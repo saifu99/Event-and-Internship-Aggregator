@@ -16,8 +16,8 @@ function App() {
       <main className="flex-1">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/events" element={<Events />} /> // all events list
-        <Route path="/event/:idv" element={<EventDetails />} /> // single event
+        <Route path="/events" element={<Events />} /> 
+        <Route path="/event/:idv" element={<EventDetails />} /> 
         <Route path="/internships" element={<Internships />} />
         <Route path="/internship/:idv" element={<InternshipDetails />} />
         <Route path="/login" element={<Login />} />
