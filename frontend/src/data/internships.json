@@ -1,0 +1,44 @@
+[
+  {
+    "_id": "in001",
+    "title": "Frontend Developer Intern",
+    "company": "TechNova Pvt. Ltd.",
+    "category": "Web Development",
+    "duration": "3 months",
+    "stipend": "₹10,000/month",
+    "location": "Remote",
+    "applyBy": "2025-11-15",
+    "logo": "/assets/internships/technova.png",
+    "description": "Work on building modern web interfaces using React and Tailwind CSS.",
+    "skills": ["React", "JavaScript", "Tailwind CSS"],
+    "applyLink": "https://ceia.in/internships/frontend-developer"
+  },
+  {
+    "_id": "in002",
+    "title": "Data Science Intern",
+    "company": "DataLabs Inc.",
+    "category": "Machine Learning",
+    "duration": "6 months",
+    "stipend": "₹15,000/month",
+    "location": "Hybrid - Bangalore",
+    "applyBy": "2025-12-05",
+    "logo": "/assets/internships/datalabs.png",
+    "description": "Assist in building ML models and performing data analysis for client projects.",
+    "skills": ["Python", "Pandas", "Scikit-learn"],
+    "applyLink": "https://ceia.in/internships/datascience"
+  },
+  {
+    "_id": "in003",
+    "title": "UI/UX Design Intern",
+    "company": "Creative Studio",
+    "category": "Design",
+    "duration": "2 months",
+    "stipend": "₹8,000/month",
+    "location": "Remote",
+    "applyBy": "2025-11-30",
+    "logo": "/assets/internships/creative.png",
+    "description": "Work on designing user-friendly interfaces and improving user experience for web and mobile products.",
+    "skills": ["Figma", "Adobe XD", "UX Research"],
+    "applyLink": "https://ceia.in/internships/uiux"
+  }
+]
