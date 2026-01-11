@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <div>
-    <h1 className="text-2xl bg-green-500">Home Page – shows events & internships</h1>
+    <h1 className="text-2xl bg-green-500">Home Page – shows events & internships.</h1>
       <h2>Events</h2>
       {events.map((e) => (
         <Card key={e.id} data={e} />
