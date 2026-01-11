@@ -19,7 +19,7 @@ export default function Home() {
     <div className="flex flex-col gap-16">
       {/* Hero Section */}
       <section className="text-center bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-6 rounded-b-3xl shadow-lg">
-        <h1 className="text-4xl font-bold mb-4">Welcome to CEIA</h1>
+        <h1 className="text-4xl font-bold mb-4">Welcome to CEIA.</h1>
         <p className="text-lg max-w-2xl mx-auto mb-6">
           Discover the latest <strong>Events</strong>, <strong>Internships</strong>, and <strong>Opportunities</strong> to grow your career.
         </p>
