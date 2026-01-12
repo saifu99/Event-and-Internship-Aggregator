@@ -3,6 +3,11 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
+import "./cron/scrapeJobs.js";
+import { scrapeDevfolio } from "./scrapers/devfolioScraper.js";
+
+scrapeDevfolio();
+
 
 dotenv.config();
 const app = express();
