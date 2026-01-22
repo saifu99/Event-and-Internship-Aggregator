@@ -10,7 +10,7 @@ export const scrapeDevfolio = async () => {
       // Fetch hackathon data
       const { data } = await axios.get(
         `https://api.devfolio.co/api/hackathons/${slug}`,
-        { timeout: 10000, headers: { "User-Agent": "Mozilla/5.0" } }
+        { timeout: 10000, headers: { "User-Agent": "Mozilla/5.0" } },
       );
 
       // Debug: log raw response once
@@ -24,6 +24,12 @@ export const scrapeDevfolio = async () => {
         continue;
       }
 
+      const deadline = h.hackathon_setting?.reg_ends_at
+        ? new Date(h.hackathon_setting.reg_ends_at)
+        : null;
+
+      const isDeadlineActive = deadline ? deadline > new Date() : false;
+
       // Prepare opportunity object
       const opportunity = {
         title: h.name,
@@ -31,18 +37,20 @@ export const scrapeDevfolio = async () => {
         platform: "Devfolio",
         type: "hackathon",
         verified: h.verified ?? true,
-        isActive: ["publish", "live"].includes(h.status?.toLowerCase()),
-        deadline: h.hackathon_setting?.reg_ends_at || "N/A",
+        isActive:
+          ["publish", "live"].includes(h.status?.toLowerCase()) &&
+          isDeadlineActive,
+        deadline: deadline,
         location: h.location || "Online/Unknown",
         participants: h.participants_count || 0,
-        applyUrl: h.hackathon_setting?.site || null
+        applyUrl: h.hackathon_setting?.site || null,
       };
 
       // Upsert into MongoDB
       await Opportunity.updateOne(
         { sourceUrl: opportunity.sourceUrl },
         { $set: opportunity },
-        { upsert: true }
+        { upsert: true },
       );
 
       savedCount++;
@@ -54,4 +62,3 @@ export const scrapeDevfolio = async () => {
 
   console.log(`\nDevfolio scrape completed. Total saved: ${savedCount}`);
 };
-
