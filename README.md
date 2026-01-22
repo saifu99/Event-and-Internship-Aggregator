@@ -74,7 +74,7 @@ event-and-internship-aggregator/
 ## Setup Instructions
 
 1. Clone the repository
-git clone https://github.com/your-username/event-internship-aggregator.git
+git clone https://github.com/your-username/Event-and-Internship-Aggregator.git
 cd Event-and-Internship-Aggregator
 
 2. Backend Setup
