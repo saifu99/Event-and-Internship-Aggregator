@@ -4,8 +4,8 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import "./cron/scrapeJobs.js";
-import { scrapeDevfolio } from "./scrapers/devfolioScraper.js";
-import opportunityRoutes from "./routes/opportunityRoutes.js";
+import { scrapeDevfolio } from "./scrapers/devfolio.scraper.js";
+import opportunityRoutes from "./routes/hackathon.routes.js";
 
 
 dotenv.config();

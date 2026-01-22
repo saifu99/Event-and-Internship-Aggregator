@@ -1,6 +1,6 @@
 // routes/opportunityRoutes.js
 import express from "express";
-import Opportunity from "../models/Opportunity.js";
+import Opportunity from "../models/hackathon.model.js";
 
 const router = express.Router();
 
