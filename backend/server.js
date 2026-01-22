@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
-import "./cron/scrapeJobs.js";
+import "./cron/devfolio.scrapeJobs.js";
 import { scrapeDevfolio } from "./scrapers/devfolio.scraper.js";
 import opportunityRoutes from "./routes/hackathon.routes.js";
 
