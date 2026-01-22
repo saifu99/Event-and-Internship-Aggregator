@@ -40,7 +40,7 @@ This project demonstrates JWT-based authentication, role-based access, and front
 ## Project Structure
 
 ```bash
-event-internship-aggregator/
+event-and-internship-aggregator/
 │
 ├── frontend/
 │   ├── src/
@@ -70,7 +70,6 @@ event-internship-aggregator/
 │
 └── README.md
 
----
 
 ## Setup Instructions
 
