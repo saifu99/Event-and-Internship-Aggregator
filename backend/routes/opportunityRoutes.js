@@ -15,7 +15,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-
 // GET single opportunity by ID
 router.get("/:id", async (req, res) => {
   try {
