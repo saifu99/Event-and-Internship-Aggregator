@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import EventCard from "../components/EventCard";
 import InternshipCard from "../components/InternshipCard";
-import eventsData from "../data/events.json";
-import internshipsData from "../data/internships.json";
 import { Link } from "react-router-dom";
 
 export default function Home() {
@@ -10,18 +8,35 @@ export default function Home() {
   const [internships, setInternships] = useState([]);
 
   useEffect(() => {
-    // load dummy JSON data
-    setEvents(eventsData);
-    setInternships(internshipsData);
+    const fetchData = async () => {
+      try {
+        const eventsRes = await fetch(
+          "http://localhost:5000/api/opportunities",
+        );
+        const eventsData = await eventsRes.json();
+        setEvents(eventsData);
+
+        // internships later (keep empty for now)
+        setInternships([]);
+      } catch (err) {
+        console.error("Failed to load home data", err);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
     <div className="flex flex-col gap-16">
       {/* Hero Section */}
       <section className="text-center bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-6 rounded-b-3xl shadow-lg">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Event and Internship Aggregator</h1>
+        <h1 className="text-4xl font-bold mb-4">
+          Welcome to Event and Internship Aggregator
+        </h1>
         <p className="text-lg max-w-2xl mx-auto mb-6">
-          Discover the latest <strong>Events</strong>, <strong>Internships</strong>, and <strong>Opportunities</strong> to grow your career.
+          Discover the latest <strong>Events</strong>,{" "}
+          <strong>Internships</strong>, and <strong>Opportunities</strong> to
+          grow your career.
         </p>
         <div className="flex justify-center gap-4">
           <Link
@@ -42,7 +57,7 @@ export default function Home() {
       {/*Events Section */}
       <section className="px-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold">Upcoming Events</h2>
+          <h2 className="text-2xl font-semibold">Latest Events or Hackathons</h2>
           <Link to="/events" className="text-blue-600 hover:underline">
             View All →
           </Link>
@@ -50,9 +65,9 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {events.length > 0 ? (
-            events.slice(0, 3).map((event) => (
-              <EventCard key={event._id} event={event} />
-            ))
+            events
+              .slice(0, 3)
+              .map((event) => <EventCard key={event._id} event={event} />)
           ) : (
             <p className="text-gray-500">No upcoming events found.</p>
           )}
@@ -70,9 +85,11 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {internships.length > 0 ? (
-            internships.slice(0, 3).map((internship) => (
-              <InternshipCard key={internship._id} internship={internship} />
-            ))
+            internships
+              .slice(0, 3)
+              .map((internship) => (
+                <InternshipCard key={internship._id} internship={internship} />
+              ))
           ) : (
             <p className="text-gray-500">No internships available.</p>
           )}
@@ -85,7 +102,8 @@ export default function Home() {
           Want to stay updated with the latest opportunities?
         </h3>
         <p className="mb-5 text-gray-600">
-          Join our community and get personalized alerts for events and internships.
+          Join our community and get personalized alerts for events and
+          internships.
         </p>
         <Link
           to="/login"
@@ -97,10 +115,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-
-
-
-
-

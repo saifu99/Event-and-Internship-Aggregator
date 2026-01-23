@@ -1,37 +1,28 @@
-// src/components/EventCard.jsx
+import { Link } from "react-router-dom";
+
 export default function EventCard({ event }) {
   return (
-    <div className="border p-4 rounded-lg shadow hover:shadow-md transition">
-      <div className="flex items-center gap-3">
-        {event.image && (
-          <img
-            src={event.image}
-            alt={event.title}
-            className="w-16 h-16 rounded-md object-cover"
-          />
-        )}
-        <div>
-          <h3 className="font-bold text-lg">{event.title}</h3>
-          {event.organizer && <p className="text-gray-600">{event.organizer}</p>}
-        </div>
-      </div>
+    <Link to={`/event/${event._id}`}>
+      <div className="border rounded-lg p-4 shadow hover:shadow-lg transition cursor-pointer">
+        <h3 className="text-lg font-semibold mb-2">{event.title}</h3>
 
-      {event.date && <p className="mt-2">📅 {event.date}</p>}
-      {event.location && <p>📍 {event.location}</p>}
-      {event.category && <p className="text-blue-600">{event.category}</p>}
-      {event.description && (
-        <p className="text-gray-500 mt-2 text-sm">{event.description}</p>
-      )}
-      {event.link && (
-        <a
-          href={event.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 mt-3 inline-block rounded"
-        >
-          View Event
-        </a>
-      )}
-    </div>
+        <p className="text-gray-600 mb-1">
+          Platform: {event.platform}
+        </p>
+
+        <p className="text-gray-600">
+          Deadline:{" "}
+          {event.deadline
+            ? new Date(event.deadline).toLocaleString("en-IN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+              })
+            : "N/A"}
+        </p>
+      </div>
+    </Link>
   );
 }
