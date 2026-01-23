@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Events from "./pages/Events";
 import EventDetails from "./pages/EventDetails";
 import Internships from "./pages/Internships";
-import InternshipDetails from "./pages/internshipDetails";
+import InternshipDetails from "./pages/InternshipDetails";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";

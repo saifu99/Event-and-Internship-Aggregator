@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import EventCard from "../components/EventCard";
 import InternshipCard from "../components/InternshipCard";
 import { Link } from "react-router-dom";
@@ -20,6 +21,26 @@ export default function Home() {
         setInternships([]);
       } catch (err) {
         console.error("Failed to load home data", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data: eventsData } = await axios.get(
+          "http://localhost:5000/api/opportunities",
+        );
+        setEvents(eventsData);
+
+        const { data: internshipsData } = await axios.get(
+          "http://localhost:5000/api/internships",
+        );
+        setInternships(internshipsData);
+      } catch (err) {
+        console.error(err);
       }
     };
 
@@ -57,7 +78,9 @@ export default function Home() {
       {/*Events Section */}
       <section className="px-6">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-semibold">Latest Events or Hackathons</h2>
+          <h2 className="text-2xl font-semibold">
+            Latest Events or Hackathons
+          </h2>
           <Link to="/events" className="text-blue-600 hover:underline">
             View All →
           </Link>
