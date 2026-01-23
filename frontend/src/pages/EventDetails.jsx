@@ -1,27 +1,3 @@
-// import { useParams } from "react-router-dom";
-
-// const mockEvents = [
-//   { id: 1, title: "Hackathon 2025", date: "2025-12-01", description: "48-hour coding challenge." },
-//   { id: 2, title: "Tech Talk", date: "2025-11-20", description: "Seminar by industry pros." },
-//   { id: 3, title: "Coding Contest", date: "2025-10-25", description: "Competitive programming." },
-// ];
-
-// export default function EventDetails() {
-//   const { idv } = useParams();
-//   const event = mockEvents.find((e) => e.id === parseInt(idv));
-
-//   if (!event) return <p className="p-4">Event not found</p>;
-
-//   return (
-//     <div className="p-6 max-w-xl mx-auto bg-white shadow-lg rounded-lg mt-6">
-//       <h1 className="text-2xl font-bold mb-2">{event.title}</h1>
-//       <p className="text-gray-600 mb-2">Date: {event.date}</p>
-//       <p className="text-gray-700">{event.description}</p>
-//     </div>
-//   );
-// }
-
-
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -34,7 +10,9 @@ export default function EventDetails() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/opportunities/${idv}`);
+        const { data } = await axios.get(
+          `http://localhost:5000/api/opportunities/${idv}`,
+        );
         setEvent(data);
         setLoading(false);
       } catch (err) {
@@ -52,7 +30,20 @@ export default function EventDetails() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{event.title}</h1>
       <p className="text-gray-600 mb-2">Platform: {event.platform}</p>
-      <p className="text-gray-600 mb-4">Deadline: {event.deadline || "N/A"}</p>
+      <p className="text-gray-600 mb-4">
+        Deadline:{" "}
+        {event.deadline
+          ? new Date(event.deadline).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: true,
+            })
+          : "N/A"}
+      </p>
+
       <a
         href={event.sourceUrl}
         target="_blank"
