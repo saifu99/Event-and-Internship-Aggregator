@@ -1,7 +1,10 @@
 import cron from "node-cron";
-import { scrapeInternshala } from "./scrapers/internshala.scraper.js";
+import { scrapeInternshala } from "../scrapers/internshala.scraper.js";
 
-cron.schedule("0 2 * * *", () => {
-  console.log("Running Internshala scraper at 2 AM daily");
-  scrapeInternshala();
+// Schedule the scraper: every day at 8 AM IST
+cron.schedule("0 8 * * *", async () => {
+  console.log("Running Internshala scraper...");
+  await scrapeInternshala();
+}, {
+  timezone: "Asia/Kolkata"
 });
