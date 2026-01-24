@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // make sure this is imported
+import InternshipCard from "../components/InternshipCard";
 
 export default function Internships() {
   const [internships, setInternships] = useState([]);
@@ -10,7 +10,23 @@ export default function Internships() {
     const fetchInternships = async () => {
       try {
         const { data } = await axios.get("http://localhost:5000/api/internships");
-        setInternships(data);
+
+        const mappedInternships = data.map(i => ({
+          _id: i._id,
+          title: i.title || "No title",
+          company: i.company || "Unknown Company",
+          logo: i.logo || null,
+          category: i.category || null,
+          duration: i.duration || null,
+          stipend: i.stipend || null,
+          location: i.location || "Remote/Unknown",
+          applyBy: i.deadline ? new Date(i.deadline).toLocaleDateString() : null,
+          skills: i.skills || [],
+          applyLink: i.sourceUrl || null,
+          platform: i.platform || "N/A"
+        }));
+
+        setInternships(mappedInternships);
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -27,28 +43,8 @@ export default function Internships() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6">Internships</h1>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {internships.map((intern) => (
-          // Wrap the card in a Link to the detail page
-          <Link key={intern._id} to={`/internship/${intern._id}`} className="block">
-            <div className="border rounded-lg p-4 shadow hover:shadow-lg transition">
-              <h2 className="text-xl font-semibold mb-2">{intern.title}</h2>
-              <p className="text-gray-600 mb-1">Company: {intern.company}</p>
-              <p className="text-gray-600 mb-1">Platform: {intern.platform}</p>
-              <p className="text-gray-600 mb-2">
-                Deadline: {intern.deadline ? new Date(intern.deadline).toLocaleString("en-IN") : "N/A"}
-              </p>
-              {/* Make Apply button clickable separately */}
-              <a
-                href={intern.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
-                onClick={(e) => e.stopPropagation()} // prevent Link click
-              >
-                Apply
-              </a>
-            </div>
-          </Link>
+        {internships.map(intern => (
+          <InternshipCard key={intern._id} internship={intern} />
         ))}
       </div>
     </div>

@@ -108,11 +108,15 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {internships.length > 0 ? (
-            internships
-              .slice(0, 3)
-              .map((internship) => (
-                <InternshipCard key={internship._id} internship={internship} />
-              ))
+            internships.slice(0, 3).map((internship) => (
+              <Link
+                key={internship._id}
+                to={`/internship/${internship._id}`}
+                className="block"
+              >
+                <InternshipCard internship={internship} />
+              </Link>
+            ))
           ) : (
             <p className="text-gray-500">No internships available.</p>
           )}

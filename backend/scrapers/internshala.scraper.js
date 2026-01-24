@@ -59,6 +59,8 @@ export async function scrapeInternshala() {
       const exists = await Internship.findOne({ sourceUrl });
       if (exists) continue;
 
+      const location = $(el).find(".location-class").text().trim() || null;
+
       await Internship.create({
         title,
         company,
@@ -67,6 +69,7 @@ export async function scrapeInternshala() {
         type: "Internship",
         verified: true,
         isActive: true,
+        location,
       });
 
       saved++;
