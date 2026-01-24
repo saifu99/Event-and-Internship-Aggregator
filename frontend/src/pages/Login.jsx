@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { registerUser, loginUser } from "../services/authService";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
@@ -14,7 +17,7 @@ export default function Login() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false); //loader later
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,22 +27,27 @@ export default function Login() {
     e.preventDefault();
     setError("");
     setMessage("");
+    setLoading(true);
 
     try {
-      setLoading(true);
-
       if (isLogin) {
-        //LOGIN
+        // LOGIN
         const res = await loginUser({
           username: formData.username,
           password: formData.password,
         });
+
+        // Save token or any auth info in localStorage
+        localStorage.setItem("token", res.token); // adjust based on your API
+        localStorage.setItem("user", JSON.stringify(res.user));
+
         setMessage(`Welcome back, ${res.user.username || formData.username}!`);
-        console.log("Login Success:", res);
+        navigate("/dashboard"); // Redirect to dashboard
       } else {
-        //REGISTER
+        // REGISTER
         if (formData.password !== formData.confirmPassword) {
           setError("Passwords do not match!");
+          setLoading(false);
           return;
         }
 
@@ -49,8 +57,13 @@ export default function Login() {
           password: formData.password,
           confirmPassword: formData.confirmPassword,
         });
+
+        // Optionally auto-login after registration
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("user", JSON.stringify(res.user));
+
         setMessage(res.message || "Registered successfully!");
-        console.log("Register Success:", res);
+        navigate("/dashboard");
       }
     } catch (err) {
       console.error("Auth error:", err);
@@ -91,9 +104,7 @@ export default function Login() {
 
         {/* Feedback messages */}
         {message && (
-          <p className="text-center text-green-600 font-medium mb-3">
-            {message}
-          </p>
+          <p className="text-center text-green-600 font-medium mb-3">{message}</p>
         )}
         {error && (
           <p className="text-center text-red-500 font-medium mb-3">{error}</p>
@@ -101,9 +112,7 @@ export default function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block mb-1 font-semibold text-gray-700">
-              Username
-            </label>
+            <label className="block mb-1 font-semibold text-gray-700">Username</label>
             <input
               type="text"
               name="username"
@@ -113,11 +122,10 @@ export default function Login() {
               required
             />
           </div>
+
           {!isLogin && (
             <div>
-              <label className="block mb-1 font-semibold text-gray-700">
-                Email
-              </label>
+              <label className="block mb-1 font-semibold text-gray-700">Email</label>
               <input
                 type="email"
                 name="email"
@@ -131,9 +139,7 @@ export default function Login() {
 
           {/* Password */}
           <div className="relative">
-            <label className="block mb-1 font-semibold text-gray-700">
-              Password
-            </label>
+            <label className="block mb-1 font-semibold text-gray-700">Password</label>
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -154,9 +160,7 @@ export default function Login() {
           {/* Confirm Password */}
           {!isLogin && (
             <div className="relative">
-              <label className="block mb-1 font-semibold text-gray-700">
-                Confirm Password
-              </label>
+              <label className="block mb-1 font-semibold text-gray-700">Confirm Password</label>
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
