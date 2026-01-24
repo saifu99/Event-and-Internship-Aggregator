@@ -4,71 +4,78 @@ import Internship from "../models/internship.model.js";
 
 const TECH_KEYWORDS = [
   "software", "developer", "web", "frontend", "backend",
-  "full stack", "react", "node", "javascript", "data",
-  "machine learning", "ai", "cloud", "devops",
+  "full stack", "react", "node", "javascript",
+  "data", "machine learning", "ai", "cloud", "devops",
 ];
 
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-function isTechInternship(text = "") {
-  return TECH_KEYWORDS.some(keyword => text.toLowerCase().includes(keyword));
-}
+const isTech = (text = "") =>
+  TECH_KEYWORDS.some((k) => text.toLowerCase().includes(k));
 
-async function scrapePage(page = 1) {
-  const url = `https://internshala.com/internships/computer-science-internship/page-${page}`;
-  console.log(`Fetching page ${page}...`);
+export async function scrapeInternshala() {
+  console.log("Internshala HTML scraper started");
 
-  const { data } = await axios.get(url);
-  const $ = load(data);
+  try {
+    const url =
+      "https://internshala.com/internships/computer-science-internship";
 
-  const internships = $(".internship_list > .individual_internship");
-  if (internships.length === 0) return false; // no more pages
+    const { data } = await axios.get(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+        Accept: "text/html",
+      },
+      timeout: 15000,
+    });
 
-  for (let i = 0; i < internships.length; i++) {
-    const elem = internships[i];
-    const title = $(elem).find("h3 a").text().trim();
-    const company = $(elem).find(".company_name a, .company_name").text().trim();
-    const internshipUrl = "https://internshala.com" + $(elem).find("h3 a").attr("href");
+    console.log("HTML length:", data.length);
 
-    if (!title || !company || !internshipUrl) continue;
+    const $ = load(data);
+    const internships = $(".individual_internship");
 
-    const categoryText = $(elem).find(".internship_categories").text();
-    if (!isTechInternship(title) && !isTechInternship(categoryText)) continue;
+    console.log("Internship cards found:", internships.length);
 
-    const deadlineText = $(elem).find(".apply_by").text().replace("Apply by ", "").trim();
-    const deadline = deadlineText ? new Date(deadlineText) : null;
+    if (internships.length === 0) {
+      console.warn("Selector failed. Internshala markup changed.");
+      return;
+    }
 
-    const existing = await Internship.findOne({ sourceUrl: internshipUrl });
-    if (!existing) {
+    let saved = 0;
+
+    for (let i = 0; i < internships.length; i++) {
+      const el = internships[i];
+
+      const title = $(el).find(".job-title-href").text().trim();
+      const company = $(el).find(".company-name").text().trim();
+      const href = $(el).find(".job-title-href").attr("href");
+
+      if (!title || !company || !href) continue;
+
+      if (!isTech(title)) continue;
+
+      const sourceUrl = `https://internshala.com${href}`;
+
+      const exists = await Internship.findOne({ sourceUrl });
+      if (exists) continue;
+
       await Internship.create({
         title,
         company,
-        sourceUrl: internshipUrl,
+        sourceUrl,
         platform: "Internshala",
         type: "Internship",
         verified: true,
         isActive: true,
-        deadline
       });
-      console.log(`Saved: ${title} at ${company}`);
-      await sleep(1000); // polite delay
-    } else {
-      console.log(`Skipped (exists): ${title}`);
+
+      saved++;
+      console.log(`Saved: ${title} @ ${company}`);
+      await sleep(1200); // anti-block delay
     }
-  }
 
-  return true; // page processed
-}
-
-export async function scrapeInternshala() {
-  try {
-    console.log("Starting Internshala scraper...");
-    let page = 1;
-    while (await scrapePage(page)) page++;
-    console.log("All pages scraped successfully!");
+    console.log(`Internshala scrape complete. Saved: ${saved}`);
   } catch (err) {
-    console.error("Scraper failed:", err.message);
+    console.error("Internshala scrape failed:", err.message);
   }
 }
