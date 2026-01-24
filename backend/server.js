@@ -5,7 +5,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import opportunityRoutes from "./routes/hackathon.routes.js";
 import internshipRoutes from "./routes/internshipRoutes.js";
-import "./cron/devfolio.scrapeJobs.js";
+import "./cron/devfolio.cron.js";
 import "./cron/internshala.scrapeJobs.js";
 
 dotenv.config();

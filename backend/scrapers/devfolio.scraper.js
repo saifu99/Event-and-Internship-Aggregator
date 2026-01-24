@@ -1,64 +1,59 @@
 import axios from "axios";
 import Opportunity from "../models/hackathon.model.js";
-import { hackathonSlugs } from "./hackathonList.js";
+import { hackathonSlugs } from "./hackathonSlugs.js";
 
-export const scrapeDevfolio = async () => {
-  let savedCount = 0;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-  for (const slug of hackathonSlugs) {
+export const scrapeDevfolio = async (slugs = hackathonSlugs) => {
+  console.log("🔥 Devfolio scrape started");
+
+  for (const slug of slugs) {
+    console.log("Calling Devfolio API for:", slug);
+
     try {
-      // Fetch hackathon data
       const { data } = await axios.get(
         `https://api.devfolio.co/api/hackathons/${slug}`,
-        { timeout: 10000, headers: { "User-Agent": "Mozilla/5.0" } },
+        {
+          headers: { "User-Agent": "Mozilla/5.0" },
+          timeout: 10000,
+        }
       );
 
-      // Debug: log raw response once
-      console.log("RAW RESPONSE for", slug, ":", data);
+      if (!data?.name) continue;
 
-      // The hackathon object is at the top level
-      const h = data;
-
-      if (!h || !h.name) {
-        console.warn(`No data for slug: ${slug}`);
-        continue;
-      }
-
-      const deadline = h.hackathon_setting?.reg_ends_at
-        ? new Date(h.hackathon_setting.reg_ends_at)
+      const deadline = data.hackathon_setting?.reg_ends_at
+        ? new Date(data.hackathon_setting.reg_ends_at)
         : null;
 
-      const isDeadlineActive = deadline ? deadline > new Date() : false;
+      const isActive =
+        ["publish", "live"].includes(data.status?.toLowerCase()) &&
+        (!deadline || deadline > new Date());
 
-      // Prepare opportunity object
-      const opportunity = {
-        title: h.name,
-        sourceUrl: `https://${h.slug}.devfolio.co`,
-        platform: "Devfolio",
-        type: "hackathon",
-        verified: h.verified ?? true,
-        isActive:
-          ["publish", "live"].includes(h.status?.toLowerCase()) &&
-          isDeadlineActive,
-        deadline: deadline,
-        location: h.location || "Online/Unknown",
-        participants: h.participants_count || 0,
-        applyUrl: h.hackathon_setting?.site || null,
-      };
-
-      // Upsert into MongoDB
       await Opportunity.updateOne(
-        { sourceUrl: opportunity.sourceUrl },
-        { $set: opportunity },
-        { upsert: true },
+        { sourceUrl: `https://${data.slug}.devfolio.co` },
+        {
+          $set: {
+            title: data.name,
+            sourceUrl: `https://${data.slug}.devfolio.co`,
+            platform: "Devfolio",
+            type: "hackathon",
+            verified: data.verified === true,
+            isActive,
+            deadline,
+            location: data.location || "Online",
+            participants: data.participants_count || 0,
+            applyUrl: data.hackathon_setting?.site || null,
+          },
+        },
+        { upsert: true }
       );
 
-      savedCount++;
-      console.log(`✅ Saved: ${h.name}`);
+      console.log("Saved:", data.name);
+      await sleep(1000); // avoid blocking
     } catch (err) {
-      console.error(`❌ Failed for slug ${slug}: ${err.message}`);
+      console.error(`Failed ${slug}:`, err.message);
     }
   }
 
-  console.log(`\nDevfolio scrape completed. Total saved: ${savedCount}`);
+  console.log("✅ Devfolio scrape finished");
 };
