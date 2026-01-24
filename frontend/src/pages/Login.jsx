@@ -31,18 +31,18 @@ export default function Login() {
 
     try {
       if (isLogin) {
-        // LOGIN
+        // LOGIN with username + password
         const res = await loginUser({
           username: formData.username,
           password: formData.password,
         });
 
-        // Save token or any auth info in localStorage
-        localStorage.setItem("token", res.token); // adjust based on your API
+        // Save token & user
+        localStorage.setItem("token", res.token);
         localStorage.setItem("user", JSON.stringify(res.user));
 
         setMessage(`Welcome back, ${res.user.username || formData.username}!`);
-        navigate("/dashboard"); // Redirect to dashboard
+        navigate("/dashboard"); // navigate only after login
       } else {
         // REGISTER
         if (formData.password !== formData.confirmPassword) {
@@ -58,12 +58,9 @@ export default function Login() {
           confirmPassword: formData.confirmPassword,
         });
 
-        // Optionally auto-login after registration
-        localStorage.setItem("token", res.token);
-        localStorage.setItem("user", JSON.stringify(res.user));
-
+        // Show success message but do NOT navigate
         setMessage(res.message || "Registered successfully!");
-        navigate("/dashboard");
+        setIsLogin(true); // switch to login mode automatically
       }
     } catch (err) {
       console.error("Auth error:", err);
@@ -103,14 +100,11 @@ export default function Login() {
         </div>
 
         {/* Feedback messages */}
-        {message && (
-          <p className="text-center text-green-600 font-medium mb-3">{message}</p>
-        )}
-        {error && (
-          <p className="text-center text-red-500 font-medium mb-3">{error}</p>
-        )}
+        {message && <p className="text-center text-green-600 font-medium mb-3">{message}</p>}
+        {error && <p className="text-center text-red-500 font-medium mb-3">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Username */}
           <div>
             <label className="block mb-1 font-semibold text-gray-700">Username</label>
             <input
@@ -123,6 +117,7 @@ export default function Login() {
             />
           </div>
 
+          {/* Email only for registration */}
           {!isLogin && (
             <div>
               <label className="block mb-1 font-semibold text-gray-700">Email</label>
@@ -157,7 +152,7 @@ export default function Login() {
             </button>
           </div>
 
-          {/* Confirm Password */}
+          {/* Confirm Password only for registration */}
           {!isLogin && (
             <div className="relative">
               <label className="block mb-1 font-semibold text-gray-700">Confirm Password</label>
