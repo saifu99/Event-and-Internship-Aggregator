@@ -11,9 +11,7 @@ export default function InternshipDetails() {
   useEffect(() => {
     const fetchInternship = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/internships/${id}`,
-        );
+        const { data } = await api.get(`/internships/${id}`);
 
         setInternship({
           _id: data._id,

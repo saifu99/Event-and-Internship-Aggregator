@@ -1,36 +1,43 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import EventCard from "../components/EventCard";
+import EventCard from "../components/EventCard"; // for other events if needed
 import InternshipCard from "../components/InternshipCard";
 import { Link } from "react-router-dom";
+import { api } from "../utils/API";
 
 export default function Home() {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([]); // Optional, in case you want other events
   const [internships, setInternships] = useState([]);
+  const [hackathons, setHackathons] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: eventsData } = await axios.get(
-          "http://localhost:5000/api/opportunities",
-        );
-        setEvents(eventsData);
+        // Fetch all opportunities (hackathons)
+        const { data: opportunitiesData } = await api.get("/opportunities");
 
-const { data: internshipsData } = await axios.get(
-  "http://localhost:5000/api/internships",
-);
+        // Set hackathons (events from Devfolio)
+        const mappedHackathons = opportunitiesData.map((h) => ({
+          _id: h._id,
+          title: h.title || "No title",
+          platform: h.platform || "N/A",
+          deadline: h.deadline || null,
+          applyLink: h.sourceUrl || null,
+        }));
+        setHackathons(mappedHackathons);
 
-const mappedInternships = internshipsData.map(i => ({
-  _id: i._id,
-  title: i.title || "No title",
-  company: i.company || "Unknown Company",
-  applyLink: i.sourceUrl || null,
-  platform: i.platform || "N/A",
-  deadline: i.deadline
-}));
+        // Fetch internships
+        const { data: internshipsData } = await api.get("/internships");
 
-setInternships(mappedInternships);
-
+        const mappedInternships = internshipsData.map((i) => ({
+          _id: i._id,
+          title: i.title || "No title",
+          company: i.company || "Unknown Company",
+          applyLink: i.sourceUrl || null,
+          platform: i.platform || "N/A",
+          deadline: i.deadline || null,
+        }));
+        setInternships(mappedInternships);
       } catch (err) {
         console.error(err);
       }
@@ -47,7 +54,7 @@ setInternships(mappedInternships);
           Welcome to Event and Internship Aggregator
         </h1>
         <p className="text-lg max-w-2xl mx-auto mb-6">
-          Discover the latest <strong>Events</strong>,{" "}
+          Discover the latest <strong>Events, Hackathons</strong>,{" "}
           <strong>Internships</strong>, and <strong>Opportunities</strong> to
           grow your career.
         </p>
@@ -67,8 +74,8 @@ setInternships(mappedInternships);
         </div>
       </section>
 
-      {/*Events Section */}
-      <section className="px-6">
+      {/* Hackathons Section */}
+      <section className="px-6 mb-12">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold">
             Latest Events or Hackathons
@@ -79,17 +86,19 @@ setInternships(mappedInternships);
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {events.length > 0 ? (
-            events
-              .slice(0, 3)
-              .map((event) => <EventCard key={event._id} event={event} />)
+          {hackathons.length > 0 ? (
+            hackathons.slice(0, 3).map((h) => (
+              <Link key={h._id} to={`/event/${h._id}`} className="block">
+                <InternshipCard internship={h} />
+              </Link>
+            ))
           ) : (
-            <p className="text-gray-500">No upcoming events found.</p>
+            <p className="text-gray-500">No hackathons available.</p>
           )}
         </div>
       </section>
 
-      {/*Internships Section */}
+      {/* Internships Section */}
       <section className="px-6 mb-12">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold">Trending Internships</h2>
@@ -100,13 +109,9 @@ setInternships(mappedInternships);
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {internships.length > 0 ? (
-            internships.slice(0, 3).map((internship) => (
-              <Link
-                key={internship._id}
-                to={`/internship/${internship._id}`}
-                className="block"
-              >
-                <InternshipCard internship={internship} />
+            internships.slice(0, 3).map((i) => (
+              <Link key={i._id} to={`/internship/${i._id}`} className="block">
+                <InternshipCard internship={i} />
               </Link>
             ))
           ) : (
@@ -121,7 +126,7 @@ setInternships(mappedInternships);
           Want to stay updated with the latest opportunities?
         </h3>
         <p className="mb-5 text-gray-600">
-          Join our community and get personalized alerts for events and
+          Join our community and get personalized alerts for hackathons and
           internships.
         </p>
         <Link

@@ -1,4 +1,4 @@
-import { api } from "../utils/APIRoutes";
+import { api } from "../utils/API";
 
 export const registerUser = async (userData) => {
   const res = await api.post("/auth/register", userData);

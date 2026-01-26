@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import InternshipCard from "../components/InternshipCard";
+import { api } from "../utils/API";
 
 export default function Internships() {
   const [internships, setInternships] = useState([]);
@@ -9,7 +10,7 @@ export default function Internships() {
   useEffect(() => {
     const fetchInternships = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/internships");
+        const { data } = await api.get("/internships");
 
         const mappedInternships = data.map(i => ({
           _id: i._id,

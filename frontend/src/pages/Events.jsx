@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { api } from "../utils/API";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
@@ -9,9 +10,7 @@ export default function Events() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/opportunities",
-        );
+        const { data } = await api.get("/opportunities");
         setEvents(data);
         setLoading(false);
       } catch (err) {
