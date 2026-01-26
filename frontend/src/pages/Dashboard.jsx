@@ -1,4 +1,3 @@
-// src/pages/Dashboard.jsx
 import React, { useEffect, useState } from "react";
 import { FaUserGraduate, FaCalendarAlt, FaClipboardList, FaBell } from "react-icons/fa";
 import { Line } from "react-chartjs-2";

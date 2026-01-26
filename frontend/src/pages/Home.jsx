@@ -16,10 +16,21 @@ export default function Home() {
         );
         setEvents(eventsData);
 
-        const { data: internshipsData } = await axios.get(
-          "http://localhost:5000/api/internships",
-        );
-        setInternships(internshipsData);
+const { data: internshipsData } = await axios.get(
+  "http://localhost:5000/api/internships",
+);
+
+const mappedInternships = internshipsData.map(i => ({
+  _id: i._id,
+  title: i.title || "No title",
+  company: i.company || "Unknown Company",
+  applyLink: i.sourceUrl || null,
+  platform: i.platform || "N/A",
+  deadline: i.deadline
+}));
+
+setInternships(mappedInternships);
+
       } catch (err) {
         console.error(err);
       }
