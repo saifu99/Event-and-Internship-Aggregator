@@ -11,25 +11,6 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const eventsRes = await fetch(
-          "http://localhost:5000/api/opportunities",
-        );
-        const eventsData = await eventsRes.json();
-        setEvents(eventsData);
-
-        // internships later (keep empty for now)
-        setInternships([]);
-      } catch (err) {
-        console.error("Failed to load home data", err);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
         const { data: eventsData } = await axios.get(
           "http://localhost:5000/api/opportunities",
         );
