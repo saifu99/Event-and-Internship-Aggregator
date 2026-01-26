@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import opportunityRoutes from "./routes/hackathon.routes.js";
 import internshipRoutes from "./routes/internshipRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
 import "./cron/devfolio.cron.js";
 import "./cron/internshala.scrapeJobs.js";
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => res.send("CEIA Backend API is running"));
 app.use("/api/auth", authRoutes);
 app.use("/api/opportunities", opportunityRoutes);
 app.use("/api/internships", internshipRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
