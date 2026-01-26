@@ -2,7 +2,7 @@ import express from "express";
 import Internship from "../models/internship.model.js";
 import Hackathon from "../models/hackathon.model.js";
 import User from "../models/User.js";
-import { protect } from "../middleware/authMiddleware.js"; // optional, if you want protected routes
+import { protect } from "../middleware/authMiddleware.js"; //optional, if you want protected routes
 
 const router = express.Router();
 

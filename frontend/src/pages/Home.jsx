@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import EventCard from "../components/EventCard"; // for other events if needed
+import EventCard from "../components/EventCard"; //for other events if needed
 import InternshipCard from "../components/InternshipCard";
 import { Link } from "react-router-dom";
 import { api } from "../utils/API";
 
 export default function Home() {
-  const [events, setEvents] = useState([]); // Optional, in case you want other events
+  const [events, setEvents] = useState([]); //Optional, in case you want other events
   const [internships, setInternships] = useState([]);
   const [hackathons, setHackathons] = useState([]);
 
