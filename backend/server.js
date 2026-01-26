@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
-import authRoutes from "./routes/auth.js";
+import authRoutes from "./routes/authRoutes.js";
 import opportunityRoutes from "./routes/hackathon.routes.js";
 import internshipRoutes from "./routes/internshipRoutes.js";
 import "./cron/devfolio.cron.js";

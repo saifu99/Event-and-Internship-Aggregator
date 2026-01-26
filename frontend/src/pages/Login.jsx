@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { registerUser, loginUser } from "../services/authService";
@@ -19,6 +19,18 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // Clear form data when switching between Login/Register
+  useEffect(() => {
+    setFormData({
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+    setMessage("");
+    setError("");
+  }, [isLogin]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -31,18 +43,17 @@ export default function Login() {
 
     try {
       if (isLogin) {
-        // LOGIN with username + password
+        // LOGIN
         const res = await loginUser({
           username: formData.username,
           password: formData.password,
         });
 
-        // Save token & user
         localStorage.setItem("token", res.token);
         localStorage.setItem("user", JSON.stringify(res.user));
 
         setMessage(`Welcome back, ${res.user.username || formData.username}!`);
-        navigate("/dashboard"); // navigate only after login
+        navigate("/dashboard");
       } else {
         // REGISTER
         if (formData.password !== formData.confirmPassword) {
@@ -58,9 +69,8 @@ export default function Login() {
           confirmPassword: formData.confirmPassword,
         });
 
-        // Show success message but do NOT navigate
         setMessage(res.message || "Registered successfully!");
-        setIsLogin(true); // switch to login mode automatically
+        setIsLogin(true); // switch to login after registration
       }
     } catch (err) {
       console.error("Auth error:", err);
@@ -103,7 +113,11 @@ export default function Login() {
         {message && <p className="text-center text-green-600 font-medium mb-3">{message}</p>}
         {error && <p className="text-center text-red-500 font-medium mb-3">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
+          {/* Hidden dummy inputs to prevent browser autofill */}
+          <input type="text" name="fake-username" style={{ display: "none" }} />
+          <input type="password" name="fake-password" style={{ display: "none" }} />
+
           {/* Username */}
           <div>
             <label className="block mb-1 font-semibold text-gray-700">Username</label>
@@ -112,8 +126,9 @@ export default function Login() {
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              autoComplete={isLogin ? "username" : "new-username"}
               required
+              className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
@@ -126,8 +141,9 @@ export default function Login() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+                autoComplete="new-email"
                 required
+                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
               />
             </div>
           )}
@@ -140,8 +156,9 @@ export default function Login() {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
+              autoComplete={isLogin ? "current-password" : "new-password"}
               required
+              className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 pr-10"
             />
             <button
               type="button"
@@ -161,8 +178,9 @@ export default function Login() {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
+                autoComplete="new-password"
                 required
+                className="w-full border border-gray-300 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 pr-10"
               />
               <button
                 type="button"
