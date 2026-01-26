@@ -13,14 +13,19 @@ dotenv.config();
 const app = express();
 
 // Middlewares
-app.use(cors());
+const corsOptions = {
+  origin: ["http://localhost:5173", "https://your-frontend-url.com"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Database connection
 connectDB();
 
 // Routes
-app.get("/", (req, res) => res.send("CEIA Backend API is running"));
+app.get("/", (req, res) => res.send("EIA Backend API is running"));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/opportunities", opportunityRoutes);

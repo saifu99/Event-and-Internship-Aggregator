@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import InternshipCard from "../components/InternshipCard";
+import { api } from "../utils/API";
 
 export default function InternshipDetails() {
   const { id } = useParams();
