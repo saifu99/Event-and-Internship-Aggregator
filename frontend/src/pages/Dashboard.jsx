@@ -32,7 +32,7 @@ const Dashboard = () => {
           { data: notificationsData },
         ] = await Promise.all([
           api.get("/dashboard/internships/count"),
-          api.get("/dashboard/opportunities/count"),
+          api.get("/dashboard/events/count"),
           api.get("/dashboard/applications?status=pending"),
           api.get("/dashboard/notifications"),
         ]);

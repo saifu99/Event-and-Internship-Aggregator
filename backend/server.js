@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
-import opportunityRoutes from "./routes/hackathon.routes.js";
+import eventRoutes from "./routes/event.routes.js";
 import internshipRoutes from "./routes/internshipRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import "./cron/devfolio.cron.js";
@@ -28,7 +28,7 @@ connectDB();
 app.get("/", (req, res) => res.send("EIA Backend API is running"));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/opportunities", opportunityRoutes);
+app.use("/api/events", eventRoutes);
 app.use("/api/internships", internshipRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 

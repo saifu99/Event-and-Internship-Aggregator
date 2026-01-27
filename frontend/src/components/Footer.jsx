@@ -1,33 +1,25 @@
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-white py-8 mt-10">
       <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-        {/* Left Section */}
-        <div className="mb-4 md:mb-0">
+
+        {/* Left: Branding */}
+        <div className="mb-4 md:mb-0 text-center md:text-left">
           <h1 className="font-bold text-xl">EIA</h1>
           <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} EIA. All rights reserved.</p>
         </div>
 
-        {/* Center Section: Links */}
-        <div className="flex space-x-6 mb-4 md:mb-0">
-          <a href="#" className="hover:text-gray-400">Home</a>
-          <a href="#" className="hover:text-gray-400">Events</a>
-          <a href="#" className="hover:text-gray-400">Internships</a>
-          <a href="#" className="hover:text-gray-400">Dashboard</a>
+        {/* Center: Navigation */}
+        <div className="flex flex-wrap justify-center space-x-6">
+          <Link to="/" className="hover:text-gray-400 transition-colors duration-200">Home</Link>
+          <Link to="/events" className="hover:text-gray-400 transition-colors duration-200">Events</Link>
+          <Link to="/internships" className="hover:text-gray-400 transition-colors duration-200">Internships</Link>
+          <Link to="/dashboard" className="hover:text-gray-400 transition-colors duration-200">Dashboard</Link>
         </div>
 
-        {/* Right Section: Social Icons */}
-        <div className="flex space-x-4">
-          <a href="#" className="hover:text-blue-500"><FaFacebookF /></a>
-          <a href="#" className="hover:text-blue-400"><FaTwitter /></a>
-          <a href="#" className="hover:text-blue-700"><FaLinkedinIn /></a>
-          <a href="#" className="hover:text-pink-500"><FaInstagram /></a>
-        </div>
       </div>
     </footer>
   );
 }
-
-

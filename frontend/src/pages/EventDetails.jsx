@@ -11,7 +11,7 @@ export default function EventDetails() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const { data } = await api.get(`/opportunities/${idv}`);
+        const { data } = await api.get(`/events/${idv}`);
         setEvent(data);
         setLoading(false);
       } catch (err) {

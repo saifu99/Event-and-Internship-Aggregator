@@ -3,9 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { registerUser, loginUser } from "../services/authService";
 
-export default function Login() {
+export default function Auth() {
   const navigate = useNavigate();
-
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
@@ -19,14 +18,8 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Clear form data when switching between Login/Register
   useEffect(() => {
-    setFormData({
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+    setFormData({ username: "", email: "", password: "", confirmPassword: "" });
     setMessage("");
     setError("");
   }, [isLogin]);
@@ -37,25 +30,20 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     setError("");
     setMessage("");
-    setLoading(true);
 
     try {
       if (isLogin) {
-        // LOGIN
-        const res = await loginUser({
-          username: formData.username,
-          password: formData.password,
-        });
-
+        // Login
+        const res = await loginUser({ username: formData.username, password: formData.password });
         localStorage.setItem("token", res.token);
         localStorage.setItem("user", JSON.stringify(res.user));
-
         setMessage(`Welcome back, ${res.user.username || formData.username}!`);
         navigate("/dashboard");
       } else {
-        // REGISTER
+        // Register
         if (formData.password !== formData.confirmPassword) {
           setError("Passwords do not match!");
           setLoading(false);
@@ -70,11 +58,10 @@ export default function Login() {
         });
 
         setMessage(res.message || "Registered successfully!");
-        setIsLogin(true); // switch to login after registration
+        setIsLogin(true);
       }
     } catch (err) {
-      console.error("Auth error:", err);
-      setError(err.response?.data?.message || "Something went wrong");
+      setError(err.response?.data?.message || err.message || "Network error");
     } finally {
       setLoading(false);
     }
@@ -83,41 +70,41 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md transition-all duration-300">
+        {/* Header */}
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
-          {isLogin ? "Welcome Back" : "Create an Account"}
+          {isLogin ? "Login to EIA" : "Create Your Account"}
         </h1>
 
-        {/* Toggle Buttons */}
-        <div className="flex justify-center mb-6">
-          <button
-            type="button"
-            className={`px-5 py-2 rounded-l-lg font-semibold transition ${
-              isLogin ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-            onClick={() => setIsLogin(true)}
-          >
-            Login
-          </button>
-          <button
-            type="button"
-            className={`px-5 py-2 rounded-r-lg font-semibold transition ${
-              !isLogin ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700"
-            }`}
-            onClick={() => setIsLogin(false)}
-          >
-            Register
-          </button>
-        </div>
+        {/* Toggle Link */}
+        <p className="text-center mb-6 text-gray-600">
+          {isLogin ? (
+            <>
+              Don't have an account?{" "}
+              <span
+                onClick={() => setIsLogin(false)}
+                className="text-blue-600 cursor-pointer hover:underline"
+              >
+                Register
+              </span>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <span
+                onClick={() => setIsLogin(true)}
+                className="text-blue-600 cursor-pointer hover:underline"
+              >
+                Login
+              </span>
+            </>
+          )}
+        </p>
 
-        {/* Feedback messages */}
-        {message && <p className="text-center text-green-600 font-medium mb-3">{message}</p>}
-        {error && <p className="text-center text-red-500 font-medium mb-3">{error}</p>}
+        {/* Feedback */}
+        {message && <p className="text-green-600 text-center mb-3">{message}</p>}
+        {error && <p className="text-red-500 text-center mb-3">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
-          {/* Hidden dummy inputs to prevent browser autofill */}
-          <input type="text" name="fake-username" style={{ display: "none" }} />
-          <input type="password" name="fake-password" style={{ display: "none" }} />
-
           {/* Username */}
           <div>
             <label className="block mb-1 font-semibold text-gray-700">Username</label>
@@ -132,7 +119,7 @@ export default function Login() {
             />
           </div>
 
-          {/* Email only for registration */}
+          {/* Email only for register */}
           {!isLogin && (
             <div>
               <label className="block mb-1 font-semibold text-gray-700">Email</label>
@@ -169,7 +156,7 @@ export default function Login() {
             </button>
           </div>
 
-          {/* Confirm Password only for registration */}
+          {/* Confirm password only for register */}
           {!isLogin && (
             <div className="relative">
               <label className="block mb-1 font-semibold text-gray-700">Confirm Password</label>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import Opportunity from "../models/hackathon.model.js";
+import Event from "../models/event.model.js";
 import { hackathonSlugs } from "./hackathonSlugs.js";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -29,7 +29,7 @@ export const scrapeDevfolio = async (slugs = hackathonSlugs) => {
         ["publish", "live"].includes(data.status?.toLowerCase()) &&
         (!deadline || deadline > new Date());
 
-      await Opportunity.updateOne(
+      await Event.updateOne(
         { sourceUrl: `https://${data.slug}.devfolio.co` },
         {
           $set: {

@@ -14,7 +14,7 @@ export default function Home() {
     const fetchData = async () => {
       try {
         // Fetch all opportunities (hackathons)
-        const { data: opportunitiesData } = await api.get("/opportunities");
+        const { data: opportunitiesData } = await api.get("/events");
 
         // Set hackathons (events from Devfolio)
         const mappedHackathons = opportunitiesData.map((h) => ({

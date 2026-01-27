@@ -10,7 +10,7 @@ export default function Events() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const { data } = await api.get("/opportunities");
+        const { data } = await api.get("/events");
         setEvents(data);
         setLoading(false);
       } catch (err) {

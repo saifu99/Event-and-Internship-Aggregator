@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const opportunitySchema = new mongoose.Schema({
+const eventSchema = new mongoose.Schema({
   title: String,
   sourceUrl: { type: String, unique: true },
   platform: String,
@@ -13,4 +13,4 @@ const opportunitySchema = new mongoose.Schema({
   applyUrl: String,
 });
 
-export default mongoose.model("Opportunity", opportunitySchema);
+export default mongoose.model("Event", eventSchema);

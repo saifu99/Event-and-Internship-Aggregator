@@ -1,6 +1,6 @@
 import express from "express";
 import Internship from "../models/internship.model.js";
-import Hackathon from "../models/hackathon.model.js";
+import Hackathon from "../models/event.model.js";
 import User from "../models/User.js";
 import { protect } from "../middleware/authMiddleware.js"; //optional, if you want protected routes
 
@@ -18,7 +18,7 @@ router.get("/internships/count", async (req, res) => {
 });
 
 // Get total upcoming events (hackathons)
-router.get("/opportunities/count", async (req, res) => {
+router.get("/events/count", async (req, res) => {
   try {
     const count = await Hackathon.countDocuments({ isActive: true });
     res.json({ count });
