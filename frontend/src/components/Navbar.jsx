@@ -5,7 +5,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  // Check if user is logged in
+  //Check if user is logged in
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
 
