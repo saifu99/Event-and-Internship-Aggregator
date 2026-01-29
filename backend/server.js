@@ -24,6 +24,10 @@ app.use(express.json());
 // Database connection
 connectDB();
 
+app.get("/health", (req, res) => { //health check
+  res.status(200).send("OK");
+});
+
 // Routes
 app.get("/", (req, res) => res.send("EIA Backend API is running"));
 
