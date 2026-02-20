@@ -13,7 +13,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   useEffect(() => {
-    fetch("https://eia-lomw.onrender.com/health")
+    fetch("https://event-and-internship-aggregator-production.up.railway.app/health")
       .then(() => console.log("Backend awake"))
       .catch(() => {});
   }, []);
