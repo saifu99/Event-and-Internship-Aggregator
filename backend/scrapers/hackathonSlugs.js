@@ -35,5 +35,12 @@ export const hackathonSlugs = [
   "hack-o-knight",
   "buildindia2026",
   "electrothon-8",
-  "mergeconflict"
+  "mergeconflict",
+  "leanin-hacks-7",
+  "engineerx-hackfest",
+  "hack-with-gdg-s3",
+  "innov-77",
+  "codelite2o",
+  "amuhacks-5",
+  "reckon-7"
 ];
