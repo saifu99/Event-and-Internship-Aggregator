@@ -16,7 +16,7 @@ export default function Home() {
         // Fetch all opportunities (hackathons)
         const { data: opportunitiesData } = await api.get("/events");
 
-        // Set hackathons (events from Devfolio)
+        // Set hackathons(events from Devfolio)
         const mappedHackathons = opportunitiesData.map((h) => ({
           _id: h._id,
           title: h.title || "No title",
