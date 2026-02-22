@@ -3,22 +3,40 @@ import Event from "../models/event.model.js";
 
 const router = express.Router();
 
-// GET all active opportunities, latest first
+// GET paginated active events
 router.get("/", async (req, res) => {
   try {
-    const events = await Event.find({ isActive: true })
-      .sort({ createdAt: -1 }); // newest first
-    res.json(events);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const skip = (page - 1) * limit;
+
+    const events = await Event.find(
+      { isActive: true },
+      "title sourceUrl platform deadline location participants applyUrl createdAt"
+    )
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    res.json({
+      page,
+      limit,
+      data: events,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// GET single opportunity by ID
+// GET single event
 router.get("/:id", async (req, res) => {
   try {
-    const event = await Event.findById(req.params.id);
-    if (!event) return res.status(404).json({ message: "Event not found" });
+    const event = await Event.findById(req.params.id).lean();
+    if (!event)
+      return res.status(404).json({ message: "Event not found" });
+
     res.json(event);
   } catch (err) {
     res.status(500).json({ message: err.message });

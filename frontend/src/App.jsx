@@ -2,18 +2,17 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Events from "./pages/Events";
-import EventDetails from "./pages/EventDetails";
 import Internships from "./pages/Internships";
-import InternshipDetails from "./pages/InternshipDetails";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
+import DetailPage from "./pages/DetailPage"; // new unified detail page
 
 export default function App() {
   useEffect(() => {
-    fetch("https://event-and-internship-aggregator-production.up.railway.app/health") //redeploy on railway
+    fetch("https://event-and-internship-aggregator-production.up.railway.app/health")
       .then(() => console.log("Backend awake"))
       .catch(() => {});
   }, []);
@@ -25,9 +24,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/event/:idv" element={<EventDetails />} />
+          <Route path="/event/:id" element={<DetailPage type="event" />} /> {/* unified detail */}
           <Route path="/internships" element={<Internships />} />
-          <Route path="/internship/:id" element={<InternshipDetails />} />
+          <Route path="/internship/:id" element={<DetailPage type="internship" />} /> {/* unified detail */}
           <Route path="/login" element={<Login />} />
           <Route
             path="/dashboard"
