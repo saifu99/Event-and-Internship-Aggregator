@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const eventsResponse = await api.get("/events?page=1&limit=10");
+        const eventsResponse = await api.get("/events?page=1&limit=9");
         const eventsArray = Array.isArray(eventsResponse?.data?.data)
           ? eventsResponse.data.data
           : [];
@@ -25,7 +25,7 @@ export default function Home() {
           }))
         );
 
-        const internshipsResponse = await api.get("/internships?page=1&limit=10");
+        const internshipsResponse = await api.get("/internships?page=1&limit=9");
         const internshipsArray = Array.isArray(internshipsResponse?.data?.data)
           ? internshipsResponse.data.data
           : [];

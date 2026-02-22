@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import compression from "compression";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import eventRoutes from "./routes/event.routes.js";
@@ -18,6 +19,7 @@ const corsOptions = {
   credentials: true,
 };
 
+app.use(compression());
 app.use(cors(corsOptions));
 app.use(express.json());
 
