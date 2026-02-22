@@ -4,7 +4,7 @@ import NodeCache from "node-cache";
 
 const router = express.Router();
 
-const cache = new NodeCache({ stdTTL: 600 });
+const cache = new NodeCache({ stdTTL: 86400 });
 
 router.get("/", async (req, res) => {
   try {
