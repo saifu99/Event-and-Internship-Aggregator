@@ -8,7 +8,7 @@ const cache = new NodeCache({ stdTTL: 86400 });
 
 router.get("/", async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 9 } = req.query;
     const cacheKey = `internships_${page}_${limit}`;
 
     const cachedData = cache.get(cacheKey);
