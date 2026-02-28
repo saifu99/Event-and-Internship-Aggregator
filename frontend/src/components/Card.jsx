@@ -15,7 +15,7 @@ export default function Card({ item, onClick }) {
       {item.applyLink && (
         <span
           onClick={(e) => {
-            e.stopPropagation(); // prevent outer onClick
+            e.stopPropagation(); //PREVENT OUTER ONCLICK
             window.open(item.applyLink, "_blank");
           }}
           className="text-blue-600 font-semibold hover:underline cursor-pointer"

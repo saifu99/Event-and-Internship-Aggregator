@@ -19,7 +19,7 @@ export default function Navbar() {
     <nav className="bg-blue-600 text-white p-4 flex flex-wrap justify-between items-center">
       <h1 className="font-bold text-xl cursor-pointer" onClick={() => navigate("/")}>EIA</h1>
 
-      {/* Hamburger button */}
+      {/* HAMBURGER BUTTON */}
       <button
         className="block md:hidden relative w-6 h-6"
         onClick={() => setIsOpen(!isOpen)}
@@ -41,7 +41,7 @@ export default function Navbar() {
         ></span>
       </button>
 
-      {/* Links */}
+      {/* LINKS */}
       <div
         className={`${isOpen ? "block" : "hidden"} w-full md:flex md:w-auto space-x-4 mt-2 md:mt-0`}
       >

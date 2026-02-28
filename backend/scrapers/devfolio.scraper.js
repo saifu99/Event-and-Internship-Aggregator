@@ -49,7 +49,7 @@ export const scrapeDevfolio = async (slugs = hackathonSlugs) => {
       );
 
       console.log("Saved:", data.name);
-      await sleep(1000); // avoid blocking
+      await sleep(1000); //AVOID BLOCKING 
     } catch (err) {
       console.error(`Failed ${slug}:`, err.message);
     }

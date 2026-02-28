@@ -27,7 +27,7 @@ const internshipSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-/* 🚀 Compound index for filter + sort */
+/* COMPOUND INDEX FOR FILTER + SORT  */
 internshipSchema.index({ isActive: 1, createdAt: -1 });
 
 export default mongoose.model("Internship", internshipSchema);

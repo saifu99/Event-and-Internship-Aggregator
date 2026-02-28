@@ -74,7 +74,7 @@ export async function scrapeInternshala() {
 
       saved++;
       console.log(`Saved: ${title} @ ${company}`);
-      await sleep(1200); // anti-block delay
+      await sleep(1200); //ANTI-BLOCK DELAY
     }
 
     console.log(`Internshala scrape complete. Saved: ${saved}`);

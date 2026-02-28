@@ -9,7 +9,7 @@ export default function Events() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const navigate = useNavigate();
-  const limit = 9; // fetch 6 at a time
+  const limit = 9; //FETCH 9 AT A TIME 
 
 const fetchEvents = async (p) => {
   try {
@@ -31,7 +31,7 @@ const fetchEvents = async (p) => {
     setEvents(prev => {
       const combined = [...prev, ...formatted];
 
-      // 🔥 Deduplicate by _id
+      //DEDUPLICATE BY _ID
       const uniqueMap = new Map();
       combined.forEach(item => {
         uniqueMap.set(item._id, item);

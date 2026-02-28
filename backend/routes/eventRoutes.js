@@ -4,7 +4,7 @@ import NodeCache from "node-cache";
 
 const router = express.Router();
 
-//Cache for 24h (86400 seconds)
+//CACHE FOR 24h (86400 SECONDS)
 const cache = new NodeCache({ stdTTL: 86400 });
 
 router.get("/", async (req, res) => {

@@ -7,7 +7,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (credentials) => {
   const res = await api.post("/auth/login", credentials);
-  // save jwt token in local storage
+  //SAVE JWT TOKEN IN LOCAL STORAGE 
   if (res.data.token) {
     localStorage.setItem("token", res.data.token);
   }

@@ -29,7 +29,7 @@ const eventSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-/* 🚀 Compound index for filter + sort */
+/*COMPOUND INDEX FOR FILTER + SORT */
 eventSchema.index({ isActive: 1, createdAt: -1 });
 
 export default mongoose.model("Event", eventSchema);

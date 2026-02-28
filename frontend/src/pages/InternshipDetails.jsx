@@ -27,7 +27,7 @@ export default function InternshipDetails() {
             ? new Date(data.deadline).toLocaleDateString()
             : null,
           skills: data.skills || [],
-          applyLink: data.sourceUrl || null, // ⭐ THIS LINE FIXES YOUR ISSUE
+          applyLink: data.sourceUrl || null, //THIS LINE FIXES YOUR ISSUE
           platform: data.platform || "N/A",
         });
       } catch (err) {

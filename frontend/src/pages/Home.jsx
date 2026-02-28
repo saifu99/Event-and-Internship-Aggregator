@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16">
-      {/* Hero */}
+      {/* HERO */}
       <section className="text-center bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-6 rounded-b-3xl shadow-lg">
         <h1 className="text-4xl font-bold mb-4">Welcome to EIA</h1>
         <p className="text-lg max-w-2xl mx-auto mb-6">
@@ -71,7 +71,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Events/Hackathons */}
+      {/* EVENTS/HACKATHONS */}
       <section className="px-6 mb-12">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold">Latest Events or Hackathons</h2>
@@ -92,7 +92,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Internships */}
+      {/* INTERNSHIPS */}
       <section className="px-6 mb-12">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-semibold">Trending Internships</h2>
@@ -116,7 +116,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bottom Call-to-Action */}
+      {/* BOTTOM CALL-TO-ACTION */}
       <section className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 text-white py-20 px-6 text-center rounded-xl shadow-xl transform hover:scale-105 transition-transform duration-300">
         <h2 className="text-3xl font-bold mb-4">
           Want to stay updated with the latest opportunities?

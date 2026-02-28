@@ -5,10 +5,10 @@ import { scrapeDevfolio } from "./scrapers/devfolio.scraper.js";
 const run = async () => {
   await connectDB();
 
-  // Use all slugs in hackathonSlugs.js
+  //USE ALL SLUGS IN hackathonSlugs.js
   await scrapeDevfolio();
 
-  console.log("Bulk scrape complete ✅");
+  console.log("Bulk scrape complete");
   process.exit(0);
 };
 

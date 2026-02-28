@@ -4,7 +4,7 @@ import cors from "cors";
 import compression from "compression";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
-import eventRoutes from "./routes/event.routes.js";
+import eventRoutes from "./routes/eventRoutes.js";
 import internshipRoutes from "./routes/internshipRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import "./cron/devfolio.cron.js";
@@ -13,7 +13,7 @@ import "./cron/internshala.scrapeJobs.js";
 dotenv.config();
 const app = express();
 
-// Middlewares
+//MIDDLEWARES
 const corsOptions = {
   origin: ["https://eia-nu.vercel.app", "http://localhost:5173"],
   credentials: true,
@@ -23,14 +23,14 @@ app.use(compression());
 app.use(cors(corsOptions));
 app.use(express.json());
 
-// Database connection
+//DATABASE CONNECTIONS 
 connectDB();
 
-app.get("/health", (req, res) => { //health check
+app.get("/health", (req, res) => { //HEALTH CHECK 
   res.status(200).send("OK");
 });
 
-// Routes
+//ROUTES 
 app.get("/", (req, res) => res.send("EIA Backend API is running"));
 
 app.use("/api/auth", authRoutes);

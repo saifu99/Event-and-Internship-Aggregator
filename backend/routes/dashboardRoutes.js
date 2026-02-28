@@ -2,11 +2,11 @@ import express from "express";
 import Internship from "../models/internship.model.js";
 import Hackathon from "../models/event.model.js";
 import User from "../models/User.js";
-import { protect } from "../middleware/authMiddleware.js"; //optional, if you want protected routes
+import { protect } from "../middleware/authMiddleware.js"; //OPTIONAL, WANT PROTECTED ROUTES
 
 const router = express.Router();
 
-// Get total internships
+//GET TOTAL INTERNSHIPS 
 router.get("/internships/count", async (req, res) => {
   try {
     const count = await Internship.countDocuments({ isActive: true });
@@ -17,7 +17,7 @@ router.get("/internships/count", async (req, res) => {
   }
 });
 
-// Get total upcoming events (hackathons)
+//GET TOTAL UPCOMING EVENTS (HACKATHONS)
 router.get("/events/count", async (req, res) => {
   try {
     const count = await Hackathon.countDocuments({ isActive: true });
@@ -28,28 +28,28 @@ router.get("/events/count", async (req, res) => {
   }
 });
 
-// Placeholder for pending applications
+//PLACEHOLDER FOR PENDING APPLICATIONS 
 router.get("/applications", async (req, res) => {
   const status = req.query.status || "pending";
-  // For now, return 0 since you don't have an Application model yet
+  //FOR NOW, RETURN 0 SINCE YOU DON'T HAVE AN APPLICATIONMODEL YET
   res.json({ count: 0, status });
 });
 
-// Placeholder for notifications
+//PLACEHOLDER FOR NOTIFICATIONS 
 router.get("/notifications", async (req, res) => {
   res.json({ count: 0, notifications: [] });
 });
 
-// Placeholder for weekly applications chart data
+//PLACEHOLDER FOR WEEKLY APPLICATIONS CHART DATA  
 router.get("/applications/weekly", async (req, res) => {
-  // Example: return random data for 4 weeks
+  //EXAMPLE: RETURN RANDOM DATA FOR 4 WEEKS 
   const data = [5, 10, 8, 12];
   res.json({ data, labels: ["Week 1", "Week 2", "Week 3", "Week 4"] });
 });
 
-// Recent activity placeholder
+//RECENT ACTIVITY PLACEHOLDER
 router.get("/users/activity", async (req, res) => {
-  // Mock data
+  //MOCK DATA 
   const activity = [
     { title: "Frontend Intern at ABC Corp", type: "Internship", date: "Jan 22, 2026" },
     { title: "React Workshop", type: "Event", date: "Jan 25, 2026" },

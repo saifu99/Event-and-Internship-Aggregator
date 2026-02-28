@@ -32,7 +32,7 @@ const fetchInternships = async (p) => {
     setInternships(prev => {
       const combined = [...prev, ...formatted];
 
-      // 🔥 Deduplicate by _id
+      //DEDUPLICATE BY _ID
       const uniqueMap = new Map();
       combined.forEach(item => {
         uniqueMap.set(item._id, item);

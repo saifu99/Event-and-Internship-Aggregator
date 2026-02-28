@@ -13,7 +13,7 @@ export default function DetailPage({ type }) {
     const fetchItem = async () => {
       try {
         const response = await api.get(`/${type}s/${id}`);
-        const data = response?.data; // <- fix here
+        const data = response?.data; 
         if (!data) throw new Error("Item not found");
 
         setItem({

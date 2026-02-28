@@ -36,14 +36,14 @@ export default function Auth() {
 
     try {
       if (isLogin) {
-        // Login
+        //LOGIN
         const res = await loginUser({ username: formData.username, password: formData.password });
         localStorage.setItem("token", res.token);
         localStorage.setItem("user", JSON.stringify(res.user));
         setMessage(`Welcome back, ${res.user.username || formData.username}!`);
         navigate("/dashboard");
       } else {
-        // Register
+        //REGISTER
         if (formData.password !== formData.confirmPassword) {
           setError("Passwords do not match!");
           setLoading(false);
@@ -70,12 +70,12 @@ export default function Auth() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md transition-all duration-300">
-        {/* Header */}
+        {/* HEADER */}
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
           {isLogin ? "Login to EIA" : "Create Your Account"}
         </h1>
 
-        {/* Toggle Link */}
+        {/* TOGGLE LINK */}
         <p className="text-center mb-6 text-gray-600">
           {isLogin ? (
             <>
@@ -100,12 +100,12 @@ export default function Auth() {
           )}
         </p>
 
-        {/* Feedback */}
+        {/* FEEDBACK */}
         {message && <p className="text-green-600 text-center mb-3">{message}</p>}
         {error && <p className="text-red-500 text-center mb-3">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
-          {/* Username */}
+          {/* USERNAME */}
           <div>
             <label className="block mb-1 font-semibold text-gray-700">Username</label>
             <input
@@ -119,7 +119,7 @@ export default function Auth() {
             />
           </div>
 
-          {/* Email only for register */}
+          {/* EMAIL ONLY FOR REGISTER */}
           {!isLogin && (
             <div>
               <label className="block mb-1 font-semibold text-gray-700">Email</label>
@@ -135,7 +135,7 @@ export default function Auth() {
             </div>
           )}
 
-          {/* Password */}
+          {/* PASSWORD */}
           <div className="relative">
             <label className="block mb-1 font-semibold text-gray-700">Password</label>
             <input
@@ -156,7 +156,7 @@ export default function Auth() {
             </button>
           </div>
 
-          {/* Confirm password only for register */}
+          {/* CONFIRM PASSWORD ONLY FOR REGISTER */}
           {!isLogin && (
             <div className="relative">
               <label className="block mb-1 font-semibold text-gray-700">Confirm Password</label>

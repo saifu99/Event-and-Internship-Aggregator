@@ -6,41 +6,41 @@ import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Register Route password hide
+//REGISTER ROUTE PASSWORD HIDE 
 router.post("/register", async (req, res) => {
   try {
     const { username, email, password, confirmPassword } = req.body;
-    //Check if all fields are provided
+    //CHECK IF ALL FIELDS ARE PROVIDED 
     if (!username || !email || !password || !confirmPassword) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Check password match
+    //CHECK PASSWORD MATCH 
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
     }
 
-    // Check if user already exists
+    //CHECK IF USER ALREADY EXISTS 
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
 
-    // Encrypt password before saving
+    //ENCRYPT PASSWORD BEFORE SAVING
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create and save new user
+    //CREATE AND SAVE NEW USER
     const user = new User({ username, email, password: hashedPassword });
     await user.save();
     console.log("User saved:", user);
 
-    // Generate JWT token here
+    //GENERATE JWT TOKEN HERE
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET || "defaultsecret",
       { expiresIn: "1d" }
     );
 
-    //Hide password in response
+    //HIDE PASSWORD IN RESPONSE 
     const { password: _pw, ...safeUser } = user._doc;
 
     res.status(201).json({
@@ -54,31 +54,31 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login Route update jwt
+//LOGIN ROUTE UPDATE JWT
 router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Find user by username
+    //FIND USER BY USERNAME 
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Compare password
+    //COMPARE PASSWORD 
     const validPass = await bcrypt.compare(password, user.password);
     if (!validPass)
       return res.status(400).json({ message: "Invalid credentials" });
 
-    // Create JWT token
+    //CREATE JWT TOKEN
     const token = jwt.sign(
       { id: user._id },
       process.env.JWT_SECRET || "defaultsecret",
       { expiresIn: "1d" }
     );
 
-    // Exclude password from response
+    //EXCLUDE PASSWORD FROM RESPONSE 
     const { password: pw, ...safeUser } = user._doc;
 
-    // Successful login
+    //SUCCESSFUL LOGIN 
     res.json({ message: "Login successful", token, user: safeUser });
   } catch (err) {
     console.error("Login Error:", err);
@@ -86,7 +86,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-//Protected Route
+//PROTECTED ROUTE 
 router.get("/profile", protect, (req, res) => {
   res.json({ message: "Welcome to your profile!", user: req.user });
 });

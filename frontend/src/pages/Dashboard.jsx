@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Fetch logged-in user
+    //FETCH LOGGED-IN USER
     const loggedUser = JSON.parse(localStorage.getItem("user"));
     setUser(loggedUser || null);
 
@@ -57,7 +57,7 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      {/* Greeting */}
+      {/* GREETING */}
       <div className="mb-6">
         <h1 className="text-2xl font-bold">
           Welcome back, {user?.username || "User"}!
@@ -65,7 +65,7 @@ const Dashboard = () => {
         <p className="text-gray-600">Here’s your dashboard overview.</p>
       </div>
 
-      {/* Top Metrics */}
+      {/* TOP METRICES */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Metric
           icon={<FaUserGraduate />}
@@ -96,7 +96,7 @@ const Dashboard = () => {
   );
 };
 
-// Reusable component for metrics
+// REUSABLE COMPONENTS FOR METRICES
 const Metric = ({ icon, label, value, color }) => (
   <div className="bg-white p-4 rounded-lg shadow flex items-center">
     <div className={`text-3xl mr-4 text-${color}-500`}>{icon}</div>
