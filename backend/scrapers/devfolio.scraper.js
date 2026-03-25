@@ -5,7 +5,7 @@ import { hackathonSlugs } from "./hackathonSlugs.js";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 export const scrapeDevfolio = async (slugs = hackathonSlugs) => {
-  console.log("🔥 Devfolio scrape started");
+  console.log("Devfolio scrape started");
 
   for (const slug of slugs) {
     console.log("Calling Devfolio API for:", slug);

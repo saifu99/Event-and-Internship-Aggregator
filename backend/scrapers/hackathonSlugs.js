@@ -1,4 +1,8 @@
 export const hackathonSlugs = [
+  "stellaris",
+  "hacktropica2k26",
+  "hackolution2k26",
+  "hackmol-7",
   "stacktoodeep-v-3",
   "doubleslash4",
   "aegis-sandbox-v",
