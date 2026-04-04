@@ -1,4 +1,12 @@
 export const hackathonSlugs = [
+  "code-for-change-2026",
+  "codesriijan",
+  "offgrid",
+  "hack-x",
+  "ctrl-build",
+  "hackhelix1",
+  "hacktonix-26",
+  "semicon-semixthon",
   "stellaris",
   "hacktropica2k26",
   "hackolution2k26",
